@@ -12,90 +12,19 @@
 
     <a-assets>
       <a-asset-item id="window" src="./assets/great_window.glb"></a-asset-item>
+      <a-asset-item id="hall" src="./assets/hogwarts_dining_hall.glb"></a-asset-item>
     </a-assets>
 
 
     <!-- Camera -->
-    <a-entity camera position="0 1.6 10" wasd-controls look-controls></a-entity>
-
-    <!-- Great Hall Structure -->
-    <!-- Floor -->
-    <a-plane position="0 0 0" rotation="-90 0 0" width="20" height="40" material="src: assets/pavement.jpg; repeat: 10 10;"></a-plane>
-
-
-
-
-  
+    <a-entity camera position="-60 0 250" rotation="0 180 0" wasd-controls look-controls></a-entity>
 
     <!-- Ceiling -->
-    <a-sky src="assets/clear_night.png"></a-sky>
+    <a-sky src="./assets/night_sky.jpg" ></a-sky>
 
-   <!-- Empty Parent Entity for Candles -->
-   <a-entity id="candle-container"></a-entity>
-
-   <a-entity gltf-model="#window" position="0 0 -20" scale="1.7 1.7 1.7"></a-entity>
-   <a-entity gltf-model="#window" position="8.15 0 -20" scale="1.7 1.7 1.7"></a-entity>
-   <a-entity gltf-model="#window" position="-8.15 0 -20" scale="1.7 1.7 1.7"></a-entity>
-
-   <a-entity gltf-model="#window" position="10 0 -16" scale="1.7 1.7 1.7" rotation="0 -90 0"></a-entity>
-   <a-entity gltf-model="#window" position="10 0 -8" scale="1.7 1.7 1.7" rotation="0 -90 0"></a-entity>
-   <a-entity gltf-model="#window" position="10 0 0" scale="1.7 1.7 1.7" rotation="0 -90 0"></a-entity>
-   <a-entity gltf-model="#window" position="10 0 8" scale="1.7 1.7 1.7" rotation="0 -90 0"></a-entity>
-   <a-entity gltf-model="#window" position="10 0 16" scale="1.7 1.7 1.7" rotation="0 -90 0"></a-entity>
-   <a-entity gltf-model="#window" position="10 0 24" scale="1.7 1.7 1.7" rotation="0 -90 0"></a-entity>
-
-
-   <a-entity gltf-model="#window" position="-10 0 -16" scale="1.7 1.7 1.7" rotation="0 90 0" ></a-entity>
-   <a-entity gltf-model="#window" position="-10 0 -8" scale="1.7 1.7 1.7" rotation="0 90 0"></a-entity>
-   <a-entity gltf-model="#window" position="-10 0 0" scale="1.7 1.7 1.7" rotation="0 90 0"></a-entity>
-   <a-entity gltf-model="#window" position="-10 0 8" scale="1.7 1.7 1.7" rotation="0 90 0"></a-entity>
-   <a-entity gltf-model="#window" position="-10 0 16" scale="1.7 1.7 1.7" rotation="0 90 0"></a-entity>
-   <a-entity gltf-model="#window" position="-10 0 24" scale="1.7 1.7 1.7" rotation="0 90 0"></a-entity>
-
-   <a-entity gltf-model="#window" position="0 0 20" scale="1.7 1.7 1.7" rotation="0 180 0"></a-entity>
-   <a-entity gltf-model="#window" position="8.15 0 20" scale="1.7 1.7 1.7" rotation="0 180 0"> </a-entity>
-   <a-entity gltf-model="#window" position="-8.15 0 20" scale="1.7 1.7 1.7" rotation="0 180 0"></a-entity>
-  
-  
+    <a-entity gltf-model="#hall" position="-15 -90 0" scale="0.2 0.2 0.2" rotation="0 180 0"></a-entity>
 
   </a-scene>
-
-
- <script>
-  // Get the candle container
-  const candleContainer = document.querySelector('#candle-container');
-
-  // Number of candles to generate
-  const numCandles = 500;
-
-  // Area constraints for random placement
-  const xMin = -9, xMax = 9;   // X-axis range
-  const zMin = -20, zMax = 20; // Z-axis range
-  const yMin = 9, yMax = 10;    // Y-axis range for floating candles
-
-  for (let i = 0; i < numCandles; i++) {
-    // Generate random positions within the defined area
-    const x = Math.random() * (xMax - xMin) + xMin;
-    const y = Math.random() * (yMax - yMin) + yMin;
-    const z = Math.random() * (zMax - zMin) + zMin;
-
-    // Generate a random delay for the animation
-    const delay = Math.random() * 3000; // Random delay between 0 and 3000ms
-
-    // Create a new candle entity
-    const candle = document.createElement('a-entity');
-    candle.setAttribute('gltf-model', 'assets/candle.glb');
-    candle.setAttribute('scale', '3 3 3');
-    candle.setAttribute('position', `${x} ${y} ${z}`);
-    candle.setAttribute(
-      'animation',
-      `property: position; to: ${x} ${y + 0.5} ${z}; dur: 3000; dir: alternate; loop: true; delay: ${delay};`
-    );
-
-    // Add the candle to the container
-    candleContainer.appendChild(candle);
-  }
-</script>
 
 
 </body>
