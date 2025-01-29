@@ -14,14 +14,34 @@
       <a-asset-item id="hall" src="./assets/hogwarts_dining_hall.glb"></a-asset-item>
       <a-asset-item id="hat" src="./assets/sorting_hat.glb"></a-asset-item>
       <a-asset-item id="stool" src="./assets/old_stool.glb"></a-asset-item>
+      <audio id="gryffindorSound" src="./assets/Gryffindor.mp3"></audio>
+      <audio id="hufflepuffSound" src="./assets/Hufflepuff.mp3"></audio>
+
     </a-assets>
 
+
+
     <!-- Camera with VR Controls -->
-    <a-entity id="camera" position="0 -1 -200" rotation="0 0 0">
+    <a-entity id="camera" position="0 1.6 -200">
       <a-camera>
-        <a-cursor></a-cursor>
+        <a-cursor></a-cursor> <!-- Cursor for interacting -->
       </a-camera>
     </a-entity>
+
+    <a-entity 
+    oculus-touch-controls="hand: left"
+    laser-controls="hand: right"
+    raycaster="objects: .clickable; showline: true; far: 10"
+    line="color: red">
+    </a-entity>
+
+    <a-entity 
+    oculus-touch-controls="hand: right"
+    laser-controls="hand: left"
+    raycaster="objects: .clickable; showline: true; far: 10"
+    line="color: red">
+    </a-entity>
+
 
     <!-- Sky for the environment -->
     <a-sky src="./assets/night_sky.jpg"></a-sky>
@@ -37,26 +57,67 @@
     <!-- Stool for the hat to sit on -->
     <a-entity gltf-model="#stool" position="0 -14 -270" scale="2 2 2"></a-entity>
 
-    <!-- Text for displaying the result -->
-    <a-entity id="sortingResult" text="value: ; color: white; align: center; width: 15" 
-              position="0 5 -270"></a-entity>
+    <!-- Sorting Result Text -->
+    <a-entity id="sortingResult" text="value: ; color: white; align: center; width: 6; scale: 5 5 5" 
+              position="0 4 -10"></a-entity>
 
   </a-scene>
 
   <script>
+    let hatClicked = false;  // To keep track of whether the hat has been clicked
+
     function sortPlayer() {
+      if (hatClicked) return;  // Prevent further clicks after the first click
+
+      // Set the flag to prevent multiple clicks
+      hatClicked = true;
+
       // Array of houses
-      const houses = ['Gryffindor', 'Hufflepuff', 'Ravenclaw', 'Slytherin'];
+      const houses = ['Gryffindor', 'Hufflepuff'];
 
       // Randomly pick a house
       const randomHouse = houses[Math.floor(Math.random() * houses.length)];
 
       // Display the result in the "sortingResult" entity
       const resultText = document.querySelector('#sortingResult');
-      resultText.setAttribute('text', 'value', `You are in ${randomHouse}!`);
+      resultText.setAttribute('text', 'value', `${randomHouse}!`);
+
+      // Trigger house-specific interaction
+      houseInteraction(randomHouse);
+      
+      // Optionally: Disable clicking on the hat after sorting
+      const hat = document.querySelector('#hat');
+      hat.setAttribute('event-set__click', 'enabled: false');
+    }
+
+    function houseInteraction(house) {
+      // Change environment or trigger sounds based on the sorted house
+      const sky = document.querySelector('a-sky');
+      let sound;
+
+      switch(house) {
+        case 'Gryffindor':
+          sky.setAttribute('src', './assets/gryffindor_sky.jpg');  // Change the sky color or texture for Gryffindor
+          sound = document.querySelector('#gryffindorSound');
+          break;
+        case 'Hufflepuff':
+          sky.setAttribute('src', './assets/hufflepuff_sky.jpg');
+          sound = document.querySelector('#hufflepuffSound');
+          break;
+        case 'Ravenclaw':
+          sky.setAttribute('src', './assets/ravenclaw_sky.jpg');
+          sound = document.querySelector('#ravenclawSound');
+          break;
+        case 'Slytherin':
+          sky.setAttribute('src', './assets/slytherin_sky.jpg');
+          sound = document.querySelector('#slytherinSound');
+          break;
+      }
+
+      // Play house-specific sound
+      if (sound) sound.play();
     }
   </script>
 
 </body>
 </html>
-
