@@ -12,20 +12,51 @@
     <a-assets>
       <a-asset-item id="window" src="./assets/great_window.glb"></a-asset-item>
       <a-asset-item id="hall" src="./assets/hogwarts_dining_hall.glb"></a-asset-item>
+      <a-asset-item id="hat" src="./assets/sorting_hat.glb"></a-asset-item>
+      <a-asset-item id="stool" src="./assets/old_stool.glb"></a-asset-item>
     </a-assets>
 
     <!-- Camera with VR Controls -->
-    <a-entity id="camera" position="0 0 0" rotation="0 0 0">
+    <a-entity id="camera" position="0 -1 -200" rotation="0 0 0">
       <a-camera>
         <a-cursor></a-cursor>
       </a-camera>
     </a-entity>
 
+    <!-- Sky for the environment -->
     <a-sky src="./assets/night_sky.jpg"></a-sky>
 
+    <!-- Hogwarts Hall -->
     <a-entity gltf-model="#hall" position="45 -90 -260" scale="0.2 0.2 0.2" rotation="0 180 0"></a-entity>
+
+    <!-- Sorting Hat -->
+    <a-entity id="hat" gltf-model="#hat" position="0 -4 -270" scale="10 10 10"
+              class="clickable" event-set__click="scale: 10 10 10; color: #FF9500" 
+              onclick="sortPlayer()"></a-entity>
+
+    <!-- Stool for the hat to sit on -->
+    <a-entity gltf-model="#stool" position="0 -14 -270" scale="2 2 2"></a-entity>
+
+    <!-- Text for displaying the result -->
+    <a-entity id="sortingResult" text="value: ; color: white; align: center; width: 15" 
+              position="0 5 -270"></a-entity>
 
   </a-scene>
 
+  <script>
+    function sortPlayer() {
+      // Array of houses
+      const houses = ['Gryffindor', 'Hufflepuff', 'Ravenclaw', 'Slytherin'];
+
+      // Randomly pick a house
+      const randomHouse = houses[Math.floor(Math.random() * houses.length)];
+
+      // Display the result in the "sortingResult" entity
+      const resultText = document.querySelector('#sortingResult');
+      resultText.setAttribute('text', 'value', `You are in ${randomHouse}!`);
+    }
+  </script>
+
 </body>
 </html>
+
