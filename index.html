@@ -32,12 +32,10 @@
         <a-cursor></a-cursor>
       </a-entity>
     
-      <!-- Left Hand Controller -->
       <a-entity 
         oculus-touch-controls="hand: left"
         teleport-controls="cameraRig: #rig; button: trigger;"></a-entity>
     
-      <!-- Right Hand Controller -->
       <a-entity 
         oculus-touch-controls="hand: right"
         laser-controls 
@@ -48,61 +46,55 @@
 
 
 
-    <!-- Sky for the environment -->
     <a-sky src="./assets/night_sky.jpg"></a-sky>
-
-    <!-- Hogwarts Hall -->
+$
     <a-entity gltf-model="#hall" position="45 -90 -260" scale="0.2 0.2 0.2" rotation="0 180 0"></a-entity>
 
-    <!-- Sorting Hat -->
     <a-entity id="hat" gltf-model="#hat" position="0 -4 -270" scale="10 10 10"
               class="clickable" event-set__click="scale: 10 10 10; color: #FF9500" 
               onclick="sortPlayer()"></a-entity>
 
-    <!-- Stool for the hat to sit on -->
     <a-entity gltf-model="#stool" position="0 -14 -270" scale="2 2 2"></a-entity>
 
-    <!-- Sorting Result Text -->
     <a-entity id="sortingResult" text="value: ; color: white; align: center; width: 6; scale: 5 5 5" 
               position="0 4 -10"></a-entity>
 
   </a-scene>
 
   <script>
-    let hatClicked = false;  // To keep track of whether the hat has been clicked
+    let hatClicked = false;
 
     function sortPlayer() {
-      if (hatClicked) return;  // Prevent further clicks after the first click
+      if (hatClicked) return;
 
-      // Set the flag to prevent multiple clicks
+      
       hatClicked = true;
 
-      // Array of houses
-      const houses = ['Gryffindor', 'Hufflepuff'];
+      
+      const houses = ['Gryffindor', 'Hufflepuff', 'Ravenclaw', 'Slytherin'];
 
-      // Randomly pick a house
+     
       const randomHouse = houses[Math.floor(Math.random() * houses.length)];
 
-      // Display the result in the "sortingResult" entity
+      
       const resultText = document.querySelector('#sortingResult');
       resultText.setAttribute('text', 'value', `${randomHouse}!`);
 
-      // Trigger house-specific interaction
+      
       houseInteraction(randomHouse);
       
-      // Optionally: Disable clicking on the hat after sorting
+      
       const hat = document.querySelector('#hat');
       hat.setAttribute('event-set__click', 'enabled: false');
     }
 
     function houseInteraction(house) {
-      // Change environment or trigger sounds based on the sorted house
       const sky = document.querySelector('a-sky');
       let sound;
 
       switch(house) {
         case 'Gryffindor':
-          sky.setAttribute('src', './assets/gryffindor_sky.jpg');  // Change the sky color or texture for Gryffindor
+          sky.setAttribute('src', './assets/gryffindor_sky.jpg');
           sound = document.querySelector('#gryffindorSound');
           break;
         case 'Hufflepuff':
@@ -119,7 +111,6 @@
           break;
       }
 
-      // Play house-specific sound
       if (sound) sound.play();
     }
   </script>
